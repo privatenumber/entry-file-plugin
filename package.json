@@ -1,7 +1,7 @@
 {
 	"name": "entry-file-plugin",
 	"version": "0.0.0-semantic-release",
-	"description": "Create an entry file that consolidates component JS and CSS",
+	"description": "Create an entry-file in your Webpack build to consolidate entry-point exports",
 	"keywords": [
 		"webpack",
 		"plugin",
