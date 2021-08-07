@@ -2,10 +2,13 @@ import assert from 'assert';
 import { RawSource } from 'webpack-sources';
 import AggregateError from 'aggregate-error';
 import type { Plugin } from 'webpack';
-import type WP5 from 'webpack5';
 import {
 	Options, Path, Export, Compiler, Compilation,
 } from './types';
+
+const hasEmitAsset = (compilation: Compilation): compilation is Compilation & {
+	emitAsset: (name: string, source: RawSource) => void;
+} => ('emitAsset' in compilation);
 
 const emitAsset = (
 	compilation: Compilation,
@@ -17,13 +20,10 @@ const emitAsset = (
 		`[EntryFilePlugin] An asset with name "${assetName}" already exists`,
 	);
 
-	if (
-		('emitAsset' in compilation)
-		&& typeof compilation.emitAsset === 'function'
-	) {
+	if (hasEmitAsset(compilation)) {
 		compilation.emitAsset(
 			assetName,
-			new RawSource(source) as unknown as WP5.sources.Source,
+			new RawSource(source),
 		);
 	} else {
 		compilation.assets[assetName] = {

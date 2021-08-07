@@ -1,9 +1,8 @@
-import type WP4 from 'webpack';
-import type WP5 from 'webpack5';
+import type webpack from 'webpack';
 import { z } from 'zod';
 
-export type Compiler = WP4.Compiler | WP5.Compiler;
-export type Compilation = WP4.compilation.Compilation | WP5.Compilation;
+export type Compiler = webpack.Compiler;
+export type Compilation = webpack.compilation.Compilation;
 
 const SpecifierString = z.string().min(1, {
 	message: 'Specifier is required',
