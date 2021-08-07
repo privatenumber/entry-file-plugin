@@ -1,0 +1,60 @@
+{
+	"name": "entry-file-plugin",
+	"version": "0.0.0-semantic-release",
+	"description": "Create an entry file that consolidates component JS and CSS",
+	"keywords": [
+		"webpack",
+		"plugin",
+		"entry",
+		"file"
+	],
+	"license": "MIT",
+	"repository": "privatenumber/entry-file-plugin",
+	"funding": "https://github.com/privatenumber/entry-file-plugin?sponsor=1",
+	"author": {
+		"name": "Hiroki Osame",
+		"email": "hiroki.osame@gmail.com"
+	},
+	"files": [
+		"dist"
+	],
+	"main": "dist/index.js",
+	"scripts": {
+		"lint": "eslint .",
+		"build": "tsc",
+		"test": "npm run test:wp4 && npm run test:wp5",
+		"test:wp4": "jest",
+		"test:wp5": "WEBPACK=5 jest"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run build && lint-staged && npm test"
+		}
+	},
+	"lint-staged": {
+		"*.{js,ts}": "eslint"
+	},
+	"dependencies": {
+		"aggregate-error": "^4.0.0",
+		"webpack-sources": "^3.2.0",
+		"zod": "^3.7.1"
+	},
+	"devDependencies": {
+		"@pvtnbr/eslint-config-typescript": "^0.1.15",
+		"@types/jest": "^26.0.23",
+		"@types/webpack": "^4.41.28",
+		"es-jest": "^1.2.0",
+		"eslint": "^7.24.0",
+		"husky": "^4.3.8",
+		"jest": "^27.0.6",
+		"lint-staged": "^10.5.4",
+		"memfs": "^3.2.2",
+		"typescript": "^4.2.4",
+		"unionfs": "^4.4.0",
+		"webpack": "4.42.0",
+		"webpack5": "npm:webpack@5.10.1"
+	},
+	"eslintConfig": {
+		"extends": "@pvtnbr/eslint-config-typescript"
+	}
+}
