@@ -83,3 +83,8 @@ type Exports = (string | {
 ```
 
 An array of paths and names to export from.
+
+
+## 👨‍👩‍👧 Related
+
+- [rollup-plugin-aggregate-exports](https://github.com/privatenumber/rollup-plugin-aggregate-exports) - Similar plugin for Rollup
