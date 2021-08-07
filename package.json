@@ -28,11 +28,14 @@
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "npm run build && lint-staged && npm test"
+			"pre-commit": "lint-staged"
 		}
 	},
 	"lint-staged": {
-		"*.{js,ts}": "eslint"
+		"*.{js,ts}": [
+			"eslint",
+			"jest --bail --findRelatedTests"
+		]
 	},
 	"dependencies": {
 		"aggregate-error": "^3.1.0",
