@@ -84,6 +84,12 @@ type Exports = (string | {
 
 An array of paths and names to export from.
 
+### omitSourcesNotFound
+Type: `boolean`
+
+Default: `false`
+
+Whether to omit import/export statements for relative paths that could not be resolved. If `false`, a warning will be emitted for unresolvable import/exports.
 
 ## 👨‍👩‍👧 Related
 
