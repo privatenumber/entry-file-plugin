@@ -16,7 +16,7 @@ describe(`Webpack ${isWp5 ? 5 : 4}`, () => {
 						new ComponentEntryPlugin(),
 					);
 				});
-			}).rejects.toThrow('Required');
+			}).rejects.toThrow('[EntryFilePlugin] Options must be passed in');
 		});
 
 		test('no import or export', async () => {
@@ -29,7 +29,7 @@ describe(`Webpack ${isWp5 ? 5 : 4}`, () => {
 						new ComponentEntryPlugin({}),
 					);
 				});
-			}).rejects.toThrow('Options must specify `imports` and/or `exports` array');
+			}).rejects.toThrow('[EntryFilePlugin] Options must specify `imports` and/or `exports`');
 		});
 
 		test('asset collision', async () => {
@@ -50,7 +50,7 @@ describe(`Webpack ${isWp5 ? 5 : 4}`, () => {
 
 	describe('use-cases', () => {
 		test('basic', async () => {
-			const { mfs } = await build({
+			const { stats, mfs } = await build({
 				'/src/index.js': 'export default "some export"',
 			}, (config) => {
 				config.output.filename = 'script.js';
@@ -80,9 +80,28 @@ describe(`Webpack ${isWp5 ? 5 : 4}`, () => {
 				);
 			});
 
+			expect(stats.compilation.warnings[0].message).toBe('[EntryFilePlugin] Could not resolve path "./style.css"');
+
 			expect(mfs.readFileSync('/dist/index.js').toString()).toBe(
 				'import "./style.css";export * from "./script.js";export * from "./script.js";export {a,b,c as d} from "./script.js";',
 			);
+		});
+
+		test('omit asset not found', async () => {
+			const { mfs } = await build({
+				'/src/index.js': 'export default "some export"',
+			}, (config) => {
+				config.output.filename = 'script.js';
+				config.plugins.push(
+					new ComponentEntryPlugin({
+						omitSourcesNotFound: true,
+						imports: ['./non-existent.css'],
+						exports: ['./non-existent.js'],
+					}),
+				);
+			});
+
+			expect(mfs.readFileSync('/dist/index.js').toString()).toBe('');
 		});
 
 		if (isWp5) {
